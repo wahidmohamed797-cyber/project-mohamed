@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employees - Tech Flow</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../style.css">
+  
+  
+</head>
+<body>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div class="d-flex align-items-center gap-3">
+    <a href="../index.html" class="text-white text-decoration-none fs-4" title="Back to Dashboard">
+        <i class="bi bi-arrow-left"> </i>
+    </a>
+
+    <h1 class="h2 fw-bold text-white m-0">Employees</h1>
+  </div>
+  <button id="addEmployeeBtn" class="btn text-white fw-semibold"
+   style="background-color: #4f35f3; border-radius: 8px; padding: 10px 20px;">+ Add Employee</button>
+</div>
+
+<div class="card border-0 p-4" style="background-color: #0d122e; border-radius: 12px;">
+  <h5 class="fw-bold text-white mb-4">Team Directory</h5>
+  <div class="table-responsive">
+    <table class="table table-dark table-hover m-0" style="--bs-table-bg: transparent; border-color: rgba(99, 108, 147, 0.1);">
+      <thead>
+        <tr style="color: #636c93;">
+          <th class="py-3">Employee Name</th>
+          <th class="py-3">Role</th>
+          <th class="py-3">Department</th>
+          <th class="py-3">Status</th>
+        </tr>
+      </thead>
+      <tbody id="employeesTableBody" class="text-white">
+
+    <tr>
+        <td class="py-3 align-middle">Ahmed Ali</td>
+        <td class="py-3 align-middle" style="color: #636c93;">UI/UX Designer</td>
+        <td class="py-3 align-middle" style="color: #636c93;">Design Team</td>
+        <td class="py-3 align-middle">
+            <span class="badge"
+                  style="background-color: rgba(16, 185, 129, 0.15);
+                         color: #10b981;
+                         border: 1px solid rgba(16, 185, 129, 0.3);
+                         padding: 6px 12px;">
+                Active
+            </span>
+        </td>
+        <td class="py-3 align-middle">
+            <button class="delete-employee-btn btn btn-sm text-danger"
+                    title="Delete Employee">
+                <i class="bi bi-trash"></i>
+            </button>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="py-3 align-middle">Mohamed Wahid</td>
+        <td class="py-3 align-middle" style="color: #636c93;">Full Stack Developer</td>
+        <td class="py-3 align-middle" style="color: #636c93;">Development</td>
+        <td class="py-3 align-middle">
+            <span class="badge"
+                  style="background-color: rgba(59, 130, 246, 0.15);
+                         color: #3b82f6;
+                         border: 1px solid rgba(59, 130, 246, 0.3);
+                         padding: 6px 12px;">
+                In Meeting
+            </span>
+        </td>
+        <td class="py-3 align-middle">
+            <button class="delete-employee-btn btn btn-sm text-danger"
+                    title="Delete Employee">
+                <i class="bi bi-trash"></i>
+            </button>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="py-3 align-middle">Sara Mohamed</td>
+        <td class="py-3 align-middle" style="color: #636c93;">QA Engineer</td>
+        <td class="py-3 align-middle" style="color: #636c93;">Testing Team</td>
+        <td class="py-3 align-middle">
+            <span class="badge"
+                  style="background-color: rgba(16, 185, 129, 0.15);
+                         color: #10b981;
+                         border: 1px solid rgba(16, 185, 129, 0.3);
+                         padding: 6px 12px;">
+                Active
+            </span>
+        </td>
+        <td class="py-3 align-middle">
+            <button class="delete-employee-btn btn btn-sm text-danger"
+                    title="Delete Employee">
+                <i class="bi bi-trash"></i>
+            </button>
+        </td>
+    </tr>
+
+  </tbody>
+
+    </table>
+  </div>
+</div>
+
+<!-- Add Employee Modal -->
+<div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Add Employee</h5>
+
+                <button type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+            </div>
+
+            <form id="employeeForm">
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label class="form-label">Employee Name</label>
+                        <input type="text"
+                               id="employeeName"
+                               class="form-control"
+                               placeholder="Enter employee name"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Role</label>
+                        <input type="text"
+                               id="employeeRole"
+                               class="form-control"
+                               placeholder="Enter role"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Department</label>
+                        <input type="text"
+                               id="employeeDepartment"
+                               class="form-control"
+                               placeholder="Enter department"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+
+                        <select id="employeeStatus" class="form-select" required>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Add Employee
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../main.js"></script>
+</body>
+</html>

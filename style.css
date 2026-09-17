@@ -1,0 +1,125 @@
+ h1{
+    
+    color: white;
+    text-align: center;
+    
+ } 
+  h5{
+    text-align: center;
+  }
+      body{
+    overflow-x:hidden ;
+    background-color: #070b1e;
+}
+.sidebar{
+    background-color: #212529;
+    min-height: 100vh;
+}
+sidebar.nav-link{
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+sidbar.nav-link:hover{
+    background-color: #0d6efd;
+    color: white;
+
+}
+sidebar h3{
+
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.nav-link{
+    color: #ccc;
+    border-radius: 10px;
+    padding: 12px 15px;
+    transition: 0.3s;
+}
+
+.nav-link:hover{
+    background-color: #6f42c1;
+    color: white;
+}
+
+
+.nav-link.active{
+    background-color: #6f42c1;
+    color: white;
+}
+
+.welcome-section {
+  display: flex !important;
+  justify-content: space-between !important; 
+  align-items: center !important;     
+  width: 100% !important;             
+  margin-bottom: 25px !important;     
+}
+
+/* تنسيق شكل وتصميم زر Add New */
+.add-new-btn {
+  background-color: #4f35f3 !important; 
+  color: #ffffff !important;          
+  border: none !important;             
+  padding: 10px 20px !important;       
+  border-radius: 8px !important;       
+  font-size: 14px !important;         
+  font-weight: 600 !important;         
+  cursor: pointer !important;          
+  display: flex !important;            
+  align-items: center !important;      
+  gap: 8px !important;                 
+  transition: background-color 0.3s ease !important; 
+}
+
+
+.add-new-btn:hover {
+  background-color: #3c24cf !important;  
+}
+
+
+.plus-icon {
+  font-size: 16px !important;
+  font-weight: bold !important;
+}
+
+
+/* ================================
+   Light Mode
+================================ */
+
+body.light-mode {
+    background-color: #f5f6fa;
+    color: #212529;
+}
+
+body.light-mode .sidebar {
+    background-color: #ffffff !important;
+}
+
+body.light-mode .card {
+    background-color: #ffffff !important;
+}
+
+body.light-mode h1,
+body.light-mode h2,
+body.light-mode h3,
+body.light-mode h4,
+body.light-mode h5,
+body.light-mode h6 {
+    color: #212529 !important;
+}
+
+body.light-mode .text-white {
+    color: #212529 !important;
+}
+
+body.light-mode table {
+    color: #212529;
+}
+
+body.light-mode .navbar {
+    background-color: #ffffff !important;
+}

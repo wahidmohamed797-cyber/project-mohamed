@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tech flow Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+     
+</head>
+<body>
+      
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2 sidebar">
+                <div class=" bg-dark text-white vh-100 p-3 d-flex flex-column">
+                    <h3 class="mb-4">Tech flow</h3>
+                    <ul class="nav flex-column"> 
+                        <li class="nav-item mb-2">
+                            <a href="#" class="nav-link active">
+                                <i class="bi bi-house-door-fill">Dashboard</i>
+                            </a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a href="pages/empolyees.html" class="nav-link text-white">
+                                <i class="bi bi-people-fill">Embolyces</i>
+                            </a>
+                        </li>
+                        <li class="nav-item mb-2"> 
+                            <a href="pages/customers.html " class="nav-link text-white">
+
+                                <i class="bi bi-person-lines-fill">customers</i>
+                            </a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a href="pages/projects.html " class="nav-link text-white">
+                                <i class="bi bi-folder-fill">projects</i>              
+                            </a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a href="pages/tasks.html" class="nav-link text-white">
+                                <i class="bi bi-clipboard-check ">tasks</i>
+                            </a>
+                        </li>
+
+                        <li class="nav-item mb-2">
+                            <a href="pages/reports.html" class="nav-link text-white">
+                                <i class="bi bi-bar-chart">reports</i> 
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav flex-column mt-auto">
+                        <li class="nav-item mb-2">
+                            <a href="pages/profile.html">
+                                <i class="bi bi-person-circle">profile</i>
+                            </a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a href="pages/settinges.html">
+                                <i class="bi bi-gear">settinges</i>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            
+            
+            <div class="col-10 bg-light p-4">
+                
+                <nav class="navbar navbar-expand-lg bg-white rounded-3 shadow-sm bx-4 by-3 ">
+                
+                <div class="container-fluid d-flex  align-items-center gap-3">
+                    <h4 class="mb-0 fw-bold">smart Bisnus Dashboard</h4>
+                    
+                    <form class="d-flex ">
+                        <input class="form-control" type="search " placeholder="search">
+
+
+                    </form>
+                    <i class="bi bi-bell fs-4"></i>
+                    <i class="bi bi-person-circle fs-3"></i>
+                </div>
+                </nav>
+                
+                
+                <div class="welcome-section"> 
+                    <div class="welcome-text">
+                        <h2>Master your workflow</h2>
+                    </div>
+                    
+                     <button id="add-project-btn" class="add-new-btn"> 
+                    <span class="plus-icon">Add New</span>
+                </button>
+
+                </div>
+               
+                <div class="row mt-4">
+                    <div class="col-3">
+                        <div class="card p-3">
+                            <h5>empolyees</h5>
+                            <h2>120</h2>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card p-3">
+                            <h5>customers</h5>
+                            <h2>450</h2>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card p-3"> <h5>projects</h5>
+                        <h2>35</h2></div>
+                       
+                    </div>
+                    <div class="col-3">
+                    <div class="card p-3"> <h5>tasks</h5>
+                    <h2>87</h2> </div>
+                </div>
+                </div>
+            <div class="row mt-4">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body ">
+                            <h5 class="fw-bold mb-3">Recent project</h5>
+                            <div class="table-responsive">
+                                <table class="table align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>project</th>
+                                            <th>client</th>
+                                            <th>status</th>
+                                            <th>progress</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="projects-tbody">
+                                        <tr>
+                                            <td>HR management</td>
+                                            <td>mohamed wahid</td>
+                                            <td> <span class="badge bg-succes">completed</span></td>
+                                            <td>100%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>sales Dashboard</td>
+                                            <td>Ahmed ali</td>
+                                            <td><span class="badge bg-warning text-dark">in progress</span></td>
+                                            <td>
+                                                <div class="progress" style="height: 8px;">
+                                                    <div class="progress-bar bg-warning"   style="width: 75%;"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>customer portal </td>
+                                            <td>sara mohamed </td>
+                                            <td><span class="badge bg-danger"> pending</span></td>
+                                            <td>30%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>invetory system</td>
+                                            <td>omar iprahim</td>
+                                            <td> <span class="badge bg-succes">combleted</span></td>
+                                            <td>100%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="fw-bold mb-3">Recent Activity</h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                    HR managment
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="bi bi-person-plus-fill text-primary"></i>
+                                    New project created
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="bi bipencil-square text-info"></i>
+                                    Empolyee profile update
+                                </li>
+   
+                            </ul>
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <div class="card border-0 shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="fw-bold mb-3">sales analytics</h5>
+                                            <canvas id="salesChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.1/chart.umd.js" integrity="sha512-T/Zt9dXFrr8cLjWcDkt8WRUVNzj6c7K5y2G8xAAh1kGKcM+LdolRrNJR1bWwuulykpaNuRfFJKCKTzcsWTbKaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>   
+    <script src="main.js"></script>
+</body>
+</html>
