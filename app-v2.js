@@ -176,6 +176,10 @@
             return [employee.id, employee];
         })
     );
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "light") {
+        document.body.classList.add("light-mode");
+    }
 
     function updateSelect(selectId, records, label, includeEmpty) {
         const select = document.getElementById(selectId);
@@ -466,6 +470,11 @@
             return;
         }
 
+        const isLightMode = document.body.classList.contains("light-mode");
+        const chartTextColor = isLightMode ? "#526078" : "#aab5cc";
+        const chartGridColor = isLightMode
+            ? "rgba(82, 96, 120, 0.14)"
+            : "rgba(170, 181, 204, 0.12)";
         const trendCanvas = document.getElementById("projectTaskTrendChart");
         if (trendCanvas) {
             const now = new Date();
@@ -500,16 +509,22 @@
                     {
                         label: "Projects",
                         data: countByMonth(data.projects),
-                        borderColor: "#7665ff",
-                        backgroundColor: "rgba(118, 101, 255, 0.14)",
+                        borderColor: isLightMode ? "#5547c8" : "#8b80ff",
+                        backgroundColor: isLightMode
+                            ? "rgba(85, 71, 200, 0.12)"
+                            : "rgba(139, 128, 255, 0.14)",
+                        pointBackgroundColor: isLightMode ? "#5547c8" : "#8b80ff",
                         fill: true,
                         tension: 0.35
                     },
                     {
                         label: "Tasks",
                         data: countByMonth(data.tasks),
-                        borderColor: "#20c997",
-                        backgroundColor: "rgba(32, 201, 151, 0.1)",
+                        borderColor: isLightMode ? "#14866d" : "#35d6aa",
+                        backgroundColor: isLightMode
+                            ? "rgba(20, 134, 109, 0.1)"
+                            : "rgba(53, 214, 170, 0.1)",
+                        pointBackgroundColor: isLightMode ? "#14866d" : "#35d6aa",
                         fill: true,
                         tension: 0.35
                     }
@@ -526,9 +541,22 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         interaction: { mode: "index", intersect: false },
-                        plugins: { legend: { position: "bottom" } },
+                        plugins: {
+                            legend: {
+                                position: "bottom",
+                                labels: { color: chartTextColor, usePointStyle: true, boxWidth: 8 }
+                            }
+                        },
                         scales: {
-                            y: { beginAtZero: true, ticks: { precision: 0 } }
+                            x: {
+                                ticks: { color: chartTextColor },
+                                grid: { color: chartGridColor }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                ticks: { precision: 0, color: chartTextColor },
+                                grid: { color: chartGridColor }
+                            }
                         }
                     }
                 });
@@ -551,8 +579,10 @@
                             return project.status === "completed";
                         }).length
                     ],
-                    backgroundColor: ["#f0ad4e", "#7665ff", "#20c997"],
-                    borderColor: "#fff",
+                    backgroundColor: isLightMode
+                        ? ["#d89a32", "#5547c8", "#14866d"]
+                        : ["#e2a33d", "#8b80ff", "#35d6aa"],
+                    borderColor: isLightMode ? "#fff" : "#111a2e",
                     borderWidth: 2,
                     hoverOffset: 6
                 }]
@@ -568,7 +598,12 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         cutout: "70%",
-                        plugins: { legend: { position: "bottom" } }
+                    plugins: {
+                        legend: {
+                            position: "bottom",
+                            labels: { color: chartTextColor, usePointStyle: true, boxWidth: 8 }
+                        }
+                    }
                     },
                     plugins: [{
                         id: "projectTotalCenterLabel",
@@ -580,7 +615,7 @@
                             const context = chart.ctx;
                             context.save();
                             context.font = "600 24px sans-serif";
-                            context.fillStyle = getComputedStyle(document.body).color;
+                            context.fillStyle = getComputedStyle(statusCanvas.closest(".card")).color;
                             context.textAlign = "center";
                             context.textBaseline = "middle";
                             context.fillText(String(data.projects.length), point.x, point.y);
@@ -989,15 +1024,12 @@
     }
 
     const darkModeToggle = document.getElementById("darkModeToggle");
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "light") {
-        document.body.classList.add("light-mode");
-    }
     if (darkModeToggle) {
         darkModeToggle.checked = savedTheme !== "light";
         darkModeToggle.addEventListener("change", function () {
             document.body.classList.toggle("light-mode", !darkModeToggle.checked);
             localStorage.setItem("theme", darkModeToggle.checked ? "dark" : "light");
+            updateDashboardCharts();
         });
     }
 
