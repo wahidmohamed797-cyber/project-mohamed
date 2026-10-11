@@ -412,6 +412,33 @@
     const activityDateFormat = new Intl.DateTimeFormat(undefined, {
         dateStyle: "medium"
     });
+    const notificationReadStorageKey = "tech-flow-read-notifications-" + user.id;
+    let readNotificationIds = new Set();
+
+    try {
+        const savedReadNotificationIds = localStorage.getItem(notificationReadStorageKey);
+        if (savedReadNotificationIds) {
+            const parsedReadNotificationIds = JSON.parse(savedReadNotificationIds);
+            if (!Array.isArray(parsedReadNotificationIds) ||
+                !parsedReadNotificationIds.every(function (id) { return typeof id === "string"; })) {
+                throw new Error("Saved notification state is invalid.");
+            }
+            readNotificationIds = new Set(parsedReadNotificationIds);
+        }
+    } catch (error) {
+        showError(error, "Unable to load notification read status.");
+    }
+
+    function saveReadNotificationIds() {
+        try {
+            localStorage.setItem(
+                notificationReadStorageKey,
+                JSON.stringify(Array.from(readNotificationIds))
+            );
+        } catch (error) {
+            showError(error, "Unable to save notification read status.");
+        }
+    }
 
     function renderNotifications() {
         const list = document.getElementById("notificationItems");
@@ -427,16 +454,32 @@
         const activeProjects = data.projects.filter(function (project) {
             return project.status === "in_progress";
         });
-        const total = incompleteTasks.length + activeProjects.length;
-        countBadge.textContent = total > 99 ? "99+" : String(total);
-        countBadge.hidden = total === 0;
+        const activeNotificationIds = new Set(
+            incompleteTasks.map(function (task) { return "task:" + task.id; })
+                .concat(activeProjects.map(function (project) { return "project:" + project.id; }))
+        );
+        const currentReadNotificationIds = new Set(
+            Array.from(readNotificationIds).filter(function (id) {
+                return activeNotificationIds.has(id);
+            })
+        );
+        if (currentReadNotificationIds.size !== readNotificationIds.size) {
+            readNotificationIds = currentReadNotificationIds;
+            saveReadNotificationIds();
+        }
+
+        const unreadTotal = activeNotificationIds.size - readNotificationIds.size;
+        countBadge.textContent = unreadTotal > 99 ? "99+" : String(unreadTotal);
+        countBadge.hidden = unreadTotal === 0;
         button.setAttribute(
             "aria-label",
-            total ? "Notifications, " + total + " items need attention" : "Notifications, none pending"
+            unreadTotal
+                ? "Notifications, " + unreadTotal + " unread items"
+                : "Notifications, none unread"
         );
 
         list.replaceChildren();
-        if (!total) {
+        if (activeNotificationIds.size === 0) {
             list.appendChild(node("div", "You're all caught up.", "notification-empty"));
             return;
         }
@@ -480,6 +523,30 @@
                 return project.name;
             }
         );
+    }
+
+    const notificationsButton = document.getElementById("notificationsButton");
+    if (notificationsButton) {
+        notificationsButton.addEventListener("shown.bs.dropdown", function () {
+            const incompleteTaskIds = data.tasks
+                .filter(function (task) { return !task.is_completed; })
+                .map(function (task) { return "task:" + task.id; });
+            const activeProjectIds = data.projects
+                .filter(function (project) { return project.status === "in_progress"; })
+                .map(function (project) { return "project:" + project.id; });
+            const unreadNotificationIds = incompleteTaskIds.concat(activeProjectIds)
+                .filter(function (id) { return !readNotificationIds.has(id); });
+
+            if (!unreadNotificationIds.length) {
+                return;
+            }
+
+            unreadNotificationIds.forEach(function (id) {
+                readNotificationIds.add(id);
+            });
+            saveReadNotificationIds();
+            renderNotifications();
+        });
     }
 
     function renderRecentActivity() {
