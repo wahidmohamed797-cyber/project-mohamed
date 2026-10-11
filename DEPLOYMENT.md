@@ -25,6 +25,8 @@ Before creating accounts from the public URL, open **Supabase → Authentication
 - Add
   `https://wahidmohamed797-cyber.github.io/project-mohamed/auth.html` to the
   allowed redirect URLs.
+- Keep the deployed GitHub Pages `auth.html` URL as the password recovery
+  redirect target too.
 - Keep the exact local `auth.html` URLs used by Live Server in the allowed
   redirects for local testing.
 

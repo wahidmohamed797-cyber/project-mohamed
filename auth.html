@@ -20,17 +20,23 @@
                        maxlength="100" autocomplete="name">
             </div>
 
-            <div class="mb-3">
+            <div id="emailField" class="mb-3">
                 <label for="email" class="form-label">البريد الإلكتروني</label>
                 <input id="email" class="form-control" type="email"
                        autocomplete="email" required>
             </div>
 
-            <div class="mb-3">
+            <div id="passwordField" class="mb-3">
                 <label for="password" class="form-label">كلمة المرور</label>
                 <input id="password" class="form-control" type="password"
                        minlength="8" autocomplete="current-password" required>
                 <small id="passwordHint" class="form-text">8 أحرف على الأقل.</small>
+            </div>
+
+            <div id="confirmPasswordField" class="mb-3" hidden>
+                <label for="confirmPassword" class="form-label">تأكيد كلمة المرور</label>
+                <input id="confirmPassword" class="form-control" type="password"
+                       minlength="8" autocomplete="new-password">
             </div>
 
             <button id="authSubmit" class="btn btn-primary w-100" type="submit">
@@ -38,6 +44,9 @@
             </button>
         </form>
 
+        <button id="forgotPassword" class="btn btn-link w-100 mt-2" type="button">
+            نسيت كلمة المرور؟
+        </button>
         <button id="authSwitch" class="btn btn-link w-100 mt-2" type="button">
             ليس لديك حساب؟ أنشئ حسابًا
         </button>
