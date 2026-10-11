@@ -879,6 +879,24 @@ html.app-loading body {
     background-color: #070b1e;
 }
 
+.auth-password-group {
+    direction: rtl;
+}
+
+.auth-card .auth-password-toggle {
+    min-width: 48px;
+    border-color: rgba(99, 108, 147, 0.45);
+    background-color: #070b1e;
+    color: #aab1cc;
+}
+
+.auth-card .auth-password-toggle:hover,
+.auth-card .auth-password-toggle:focus {
+    border-color: #7665ff;
+    background-color: #151b3d;
+    color: #fff;
+}
+
 .auth-card .form-control:focus {
     border-color: #7665ff;
     box-shadow: 0 0 0 0.2rem rgba(79, 53, 243, 0.25);
@@ -902,6 +920,33 @@ html.app-loading body {
     background: #070b1e;
     color: #fff;
     text-align: center;
+}
+
+.auth-loading-overlay {
+    position: fixed;
+    z-index: 2000;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(7, 11, 30, 0.82);
+    backdrop-filter: blur(4px);
+    color: #fff;
+}
+
+.auth-loading-overlay[hidden] {
+    display: none;
+}
+
+.auth-loading-content {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 24px;
+    border: 1px solid rgba(170, 177, 204, 0.2);
+    border-radius: 14px;
+    background: #0d122e;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    font-size: 1.05rem;
 }
 
 .app-data-error {

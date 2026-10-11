@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل الدخول - Tech Flow</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body data-public-page="true" class="auth-page">
@@ -28,15 +29,27 @@
 
             <div id="passwordField" class="mb-3">
                 <label for="password" class="form-label">كلمة المرور</label>
-                <input id="password" class="form-control" type="password"
-                       minlength="8" autocomplete="current-password" required>
+                <div class="input-group auth-password-group">
+                    <input id="password" class="form-control" type="password"
+                           minlength="8" autocomplete="current-password" required>
+                    <button id="passwordVisibility" class="btn auth-password-toggle" type="button"
+                            aria-label="إظهار كلمة المرور" aria-pressed="false" title="إظهار كلمة المرور">
+                        <i class="bi bi-eye" aria-hidden="true"></i>
+                    </button>
+                </div>
                 <small id="passwordHint" class="form-text">8 أحرف على الأقل.</small>
             </div>
 
             <div id="confirmPasswordField" class="mb-3" hidden>
                 <label for="confirmPassword" class="form-label">تأكيد كلمة المرور</label>
-                <input id="confirmPassword" class="form-control" type="password"
-                       minlength="8" autocomplete="new-password">
+                <div class="input-group auth-password-group">
+                    <input id="confirmPassword" class="form-control" type="password"
+                           minlength="8" autocomplete="new-password">
+                    <button id="confirmPasswordVisibility" class="btn auth-password-toggle" type="button"
+                            aria-label="إظهار كلمة المرور" aria-pressed="false" title="إظهار كلمة المرور">
+                        <i class="bi bi-eye" aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
 
             <button id="authSubmit" class="btn btn-primary w-100" type="submit">
@@ -52,6 +65,13 @@
         </button>
         <p id="authStatus" class="small mt-3 mb-0" role="status" aria-live="polite"></p>
     </main>
+    <div id="authLoading" class="auth-loading-overlay" role="status" aria-live="assertive"
+         aria-hidden="true" hidden>
+        <div class="auth-loading-content">
+            <span class="spinner-border text-light" aria-hidden="true"></span>
+            <span id="authLoadingMessage">جارٍ التحميل...</span>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <script src="supabase-config.js"></script>
