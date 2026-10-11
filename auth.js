@@ -1,6 +1,8 @@
 (function () {
     const config = window.SUPABASE_CONFIG;
     const publicPage = document.body.dataset.publicPage === "true";
+    window.isPasswordRecovery =
+        new URLSearchParams(window.location.hash.slice(1)).get("type") === "recovery";
 
     function showError(message) {
         let status = document.getElementById("authStatus");

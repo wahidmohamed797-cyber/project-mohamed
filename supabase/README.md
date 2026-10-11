@@ -20,7 +20,8 @@ service-role key.
 
 In the Supabase dashboard, configure the Auth URL settings to allow the exact
 local development and deployed website URLs before testing email confirmation.
-The sign-up form returns users to the current `auth.html` URL.
+The sign-up and password recovery forms return users to the current `auth.html`
+URL. Set that exact local and deployed URL in the Auth redirect allow list.
 
 The migration creates a profile when an auth user signs up, plus customer,
 employee, project, and task tables. Each record belongs to its creating account;
