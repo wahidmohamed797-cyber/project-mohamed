@@ -213,6 +213,28 @@ body.light-mode .navbar {
     background-color: #4f35f3;
 }
 
+.dashboard-chart {
+    position: relative;
+    width: 100%;
+}
+
+.dashboard-doughnut-chart {
+    height: 260px;
+}
+
+.dashboard-line-chart {
+    height: 320px;
+}
+
+.project-card .delete-project-btn {
+    color: #ff7b86 !important;
+}
+
+.project-card .delete-project-btn:hover {
+    color: #fff !important;
+    background-color: rgba(220, 53, 69, 0.2);
+}
+
 
 /* =====================================================
    TASKS
@@ -233,6 +255,11 @@ body.light-mode .navbar {
 
 .task-secondary-text {
     color: #636c93;
+}
+
+.task-item .delete-task-btn {
+    margin-left: auto;
+    flex: 0 0 auto;
 }
 
 
@@ -400,4 +427,9 @@ html.app-loading body {
 .app-data-error.app-data-success {
     border-color: rgba(16, 185, 129, 0.5);
     background: #10271f;
+}
+
+.app-data-error.app-data-warning {
+    border-color: rgba(240, 173, 78, 0.6);
+    background: #302719;
 }

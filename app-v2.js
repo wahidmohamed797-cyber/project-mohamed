@@ -21,13 +21,15 @@
         pageError.hidden = false;
     }
 
-    function showMessage(message) {
-        pageError.classList.add("app-data-success");
+    function showMessage(message, isWarning) {
+        pageError.classList.toggle("app-data-success", !isWarning);
+        pageError.classList.toggle("app-data-warning", Boolean(isWarning));
         pageError.textContent = message;
         pageError.hidden = false;
         window.setTimeout(function () {
             pageError.hidden = true;
             pageError.classList.remove("app-data-success");
+            pageError.classList.remove("app-data-warning");
         }, 5000);
     }
 
@@ -46,6 +48,15 @@
         const element = node("td", text, className);
         row.appendChild(element);
         return element;
+    }
+
+    function deleteButton(className, label) {
+        const button = node("button", null, className + " btn btn-sm text-danger");
+        button.type = "button";
+        button.title = label;
+        button.setAttribute("aria-label", label);
+        button.appendChild(node("i", null, "bi bi-trash"));
+        return button;
     }
 
     function displayStatus(status) {
@@ -252,12 +263,16 @@
 
     function renderProjectCard(project) {
         const wrapper = node("div", null, "col-md-6 col-lg-4");
+        wrapper.dataset.id = project.id;
         const card = node("div", null, "card border-0 p-4 h-100 project-card");
         const heading = node("div", null, "d-flex justify-content-between align-items-start mb-2");
-        heading.append(
-            node("h5", project.name, "fw-bold text-white m-0"),
-            node("span", displayStatus(project.status), "badge project-status-badge")
+        heading.appendChild(node("h5", project.name, "fw-bold text-white m-0"));
+        const actions = node("div", null, "d-flex align-items-center gap-2");
+        actions.append(
+            node("span", displayStatus(project.status), "badge project-status-badge"),
+            deleteButton("delete-project-btn", "Delete project")
         );
+        heading.appendChild(actions);
         const customer = customersById.get(project.customer_id);
         card.append(
             heading,
@@ -301,7 +316,7 @@
             if (!data.projects.length) {
                 const row = document.createElement("tr");
                 const empty = cell(row, "No projects yet.", "text-center py-3");
-                empty.colSpan = 4;
+                empty.colSpan = 5;
                 tbody.appendChild(row);
             }
             data.projects.slice(0, 8).forEach(function (project) {
@@ -326,6 +341,9 @@
                     track.appendChild(bar);
                     progressCell.appendChild(track);
                 }
+                const actions = cell(row, null, "text-nowrap");
+                actions.appendChild(deleteButton("delete-project-btn", "Delete project"));
+                row.dataset.id = project.id;
                 tbody.appendChild(row);
             });
         }
@@ -378,9 +396,144 @@
                 title,
                 node("small", "Assigned to: " + (employee ? employee.name : "Unassigned"), "task-secondary-text")
             );
-            item.append(checkbox, details);
+            item.dataset.id = task.id;
+            item.append(checkbox, details, deleteButton("delete-task-btn", "Delete task"));
             container.appendChild(item);
         });
+    }
+
+    let projectTaskTrendChart;
+    let projectStatusChart;
+
+    function updateDashboardCharts() {
+        if (typeof window.Chart === "undefined") {
+            return;
+        }
+
+        const trendCanvas = document.getElementById("projectTaskTrendChart");
+        if (trendCanvas) {
+            const now = new Date();
+            const firstMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 5, 1));
+            const months = Array.from({ length: 6 }, function (_, index) {
+                const month = new Date(Date.UTC(
+                    firstMonth.getUTCFullYear(),
+                    firstMonth.getUTCMonth() + index,
+                    1
+                ));
+                return {
+                    key: month.getUTCFullYear() + "-" + month.getUTCMonth(),
+                    label: new Intl.DateTimeFormat("en", {
+                        month: "short",
+                        timeZone: "UTC"
+                    }).format(month)
+                };
+            });
+            const countByMonth = function (records) {
+                return months.map(function (month) {
+                    return records.filter(function (record) {
+                        const createdAt = new Date(record.created_at);
+                        return createdAt.getUTCFullYear() + "-" + createdAt.getUTCMonth() === month.key;
+                    }).length;
+                });
+            };
+            const trendData = {
+                labels: months.map(function (month) {
+                    return month.label;
+                }),
+                datasets: [
+                    {
+                        label: "Projects",
+                        data: countByMonth(data.projects),
+                        borderColor: "#7665ff",
+                        backgroundColor: "rgba(118, 101, 255, 0.14)",
+                        fill: true,
+                        tension: 0.35
+                    },
+                    {
+                        label: "Tasks",
+                        data: countByMonth(data.tasks),
+                        borderColor: "#20c997",
+                        backgroundColor: "rgba(32, 201, 151, 0.1)",
+                        fill: true,
+                        tension: 0.35
+                    }
+                ]
+            };
+            if (projectTaskTrendChart) {
+                projectTaskTrendChart.data = trendData;
+                projectTaskTrendChart.update();
+            } else {
+                projectTaskTrendChart = new window.Chart(trendCanvas, {
+                    type: "line",
+                    data: trendData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: { mode: "index", intersect: false },
+                        plugins: { legend: { position: "bottom" } },
+                        scales: {
+                            y: { beginAtZero: true, ticks: { precision: 0 } }
+                        }
+                    }
+                });
+            }
+        }
+
+        const statusCanvas = document.getElementById("projectStatusChart");
+        if (statusCanvas) {
+            const statusData = {
+                labels: ["Pending", "In Progress", "Completed"],
+                datasets: [{
+                    data: [
+                        data.projects.filter(function (project) {
+                            return project.status === "pending";
+                        }).length,
+                        data.projects.filter(function (project) {
+                            return project.status === "in_progress";
+                        }).length,
+                        data.projects.filter(function (project) {
+                            return project.status === "completed";
+                        }).length
+                    ],
+                    backgroundColor: ["#f0ad4e", "#7665ff", "#20c997"],
+                    borderColor: "#fff",
+                    borderWidth: 2,
+                    hoverOffset: 6
+                }]
+            };
+            if (projectStatusChart) {
+                projectStatusChart.data = statusData;
+                projectStatusChart.update();
+            } else {
+                projectStatusChart = new window.Chart(statusCanvas, {
+                    type: "doughnut",
+                    data: statusData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: "70%",
+                        plugins: { legend: { position: "bottom" } }
+                    },
+                    plugins: [{
+                        id: "projectTotalCenterLabel",
+                        afterDraw: function (chart) {
+                            const point = chart.getDatasetMeta(0).data[0];
+                            if (!point) {
+                                return;
+                            }
+                            const context = chart.ctx;
+                            context.save();
+                            context.font = "600 24px sans-serif";
+                            context.fillStyle = getComputedStyle(document.body).color;
+                            context.textAlign = "center";
+                            context.textBaseline = "middle";
+                            context.fillText(String(data.projects.length), point.x, point.y);
+                            context.restore();
+                        }
+                    }]
+                });
+            }
+        }
     }
 
     function renderDashboard() {
@@ -396,6 +549,7 @@
                 element.textContent = String(entry[1]);
             }
         });
+        updateDashboardCharts();
     }
 
     function renderReports() {
@@ -454,27 +608,89 @@
     renderTasks();
     renderDashboard();
     renderReports();
-    const salesChartCanvas = document.getElementById("salesChart");
-    if (salesChartCanvas && typeof window.Chart !== "undefined") {
-        new window.Chart(salesChartCanvas, {
-            type: "bar",
-            data: {
-                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-                datasets: [{
-                    label: "Sales",
-                    data: [12, 19, 3, 5, 2, 3, 10],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+
+    async function deleteProject(project) {
+        const linkedTasks = data.tasks.filter(function (task) {
+            return task.project_id === project.id;
+        }).length;
+        if (linkedTasks) {
+            showMessage("لا يمكن حذف المشروع لارتباط " + linkedTasks + " مهمة به. احذف المهام المرتبطة أولًا.", true);
+            return;
+        }
+        if (!window.confirm("هل تريد حذف المشروع " + project.name + "؟")) {
+            return;
+        }
+        try {
+            const result = await client.from("projects").delete().eq("id", project.id);
+            if (result.error) {
+                throw result.error;
+            }
+        } catch (error) {
+            showError(error, "تعذر حذف المشروع.");
+            return;
+        }
+        data.projects = data.projects.filter(function (entry) {
+            return entry.id !== project.id;
+        });
+        renderProjects();
+        renderCustomers();
+        renderDashboard();
+        renderReports();
+        updateSelect("taskProject", data.projects, "name", true);
+    }
+
+    async function deleteTask(task) {
+        if (!window.confirm("هل تريد حذف المهمة " + task.name + "؟")) {
+            return;
+        }
+        try {
+            const result = await client.from("tasks").delete().eq("id", task.id);
+            if (result.error) {
+                throw result.error;
+            }
+        } catch (error) {
+            showError(error, "تعذر حذف المهمة.");
+            return;
+        }
+        data.tasks = data.tasks.filter(function (entry) {
+            return entry.id !== task.id;
+        });
+        renderTasks();
+        renderDashboard();
+        renderReports();
+    }
+
+    ["projectsContainer", "projects-tbody"].forEach(function (containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) {
+            return;
+        }
+        container.addEventListener("click", function (event) {
+            const button = event.target.closest(".delete-project-btn");
+            const row = button && button.closest("[data-id]");
+            const project = row && data.projects.find(function (entry) {
+                return entry.id === row.dataset.id;
+            });
+            if (project) {
+                deleteProject(project);
+            }
+        });
+    });
+
+    const taskContainer = document.getElementById("tasksContainer");
+    if (taskContainer) {
+        taskContainer.addEventListener("click", function (event) {
+            const button = event.target.closest(".delete-task-btn");
+            const row = button && button.closest("[data-id]");
+            const task = row && data.tasks.find(function (entry) {
+                return entry.id === row.dataset.id;
+            });
+            if (task) {
+                deleteTask(task);
             }
         });
     }
+
     updateSelect("projectClient", data.customers, "name", true);
     updateSelect("taskAssigned", data.employees, "name", true);
     updateSelect("taskProject", data.projects, "name", true);
@@ -511,7 +727,17 @@
             const employee = row && data.employees.find(function (entry) {
                 return entry.id === row.dataset.id;
             });
-            if (!employee || !window.confirm("Delete " + employee.name + "?")) {
+            if (!employee) {
+                return;
+            }
+            const assignedTasks = data.tasks.filter(function (task) {
+                return task.assigned_employee_id === employee.id;
+            }).length;
+            if (assignedTasks) {
+                showMessage("لا يمكن حذف الموظف لارتباط " + assignedTasks + " مهمة به. احذف المهام المرتبطة أولًا.", true);
+                return;
+            }
+            if (!window.confirm("هل تريد حذف الموظف " + employee.name + "؟")) {
                 return;
             }
             try {
@@ -527,11 +753,6 @@
                 return entry.id !== employee.id;
             });
             employeesById.delete(employee.id);
-            data.tasks.forEach(function (task) {
-                if (task.assigned_employee_id === employee.id) {
-                    task.assigned_employee_id = null;
-                }
-            });
             renderEmployees();
             renderTasks();
             renderDashboard();
@@ -570,7 +791,17 @@
             const customer = row && data.customers.find(function (entry) {
                 return entry.id === row.dataset.id;
             });
-            if (!customer || !window.confirm("Delete " + customer.name + "?")) {
+            if (!customer) {
+                return;
+            }
+            const customerProjects = data.projects.filter(function (project) {
+                return project.customer_id === customer.id;
+            }).length;
+            if (customerProjects) {
+                showMessage("لا يمكن حذف العميل لارتباط " + customerProjects + " مشروع به. احذف المشروعات المرتبطة أولًا.", true);
+                return;
+            }
+            if (!window.confirm("هل تريد حذف العميل " + customer.name + "؟")) {
                 return;
             }
             try {
