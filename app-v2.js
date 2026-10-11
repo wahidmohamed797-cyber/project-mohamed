@@ -387,6 +387,7 @@
                     task.is_completed = result.data.is_completed;
                     title.classList.toggle("text-decoration-line-through", task.is_completed);
                     checkbox.disabled = false;
+                    renderDashboard();
                     renderReports();
                 } catch (error) {
                     checkbox.checked = !checkbox.checked;
@@ -411,6 +412,75 @@
     const activityDateFormat = new Intl.DateTimeFormat(undefined, {
         dateStyle: "medium"
     });
+
+    function renderNotifications() {
+        const list = document.getElementById("notificationItems");
+        const countBadge = document.getElementById("notificationCount");
+        const button = document.getElementById("notificationsButton");
+        if (!list || !countBadge || !button) {
+            return;
+        }
+
+        const incompleteTasks = data.tasks.filter(function (task) {
+            return !task.is_completed;
+        });
+        const activeProjects = data.projects.filter(function (project) {
+            return project.status === "in_progress";
+        });
+        const total = incompleteTasks.length + activeProjects.length;
+        countBadge.textContent = total > 99 ? "99+" : String(total);
+        countBadge.hidden = total === 0;
+        button.setAttribute(
+            "aria-label",
+            total ? "Notifications, " + total + " items need attention" : "Notifications, none pending"
+        );
+
+        list.replaceChildren();
+        if (!total) {
+            list.appendChild(node("div", "You're all caught up.", "notification-empty"));
+            return;
+        }
+
+        function appendGroup(label, records, href, icon, getTitle) {
+            if (!records.length) {
+                return;
+            }
+            list.appendChild(node("div", label, "notification-menu-group"));
+            records.slice(0, 4).forEach(function (record) {
+                const link = node("a", null, "notification-menu-item");
+                link.href = href;
+                link.append(
+                    node("i", null, "bi " + icon),
+                    node("span", getTitle(record))
+                );
+                list.appendChild(link);
+            });
+            if (records.length > 4) {
+                const more = node("a", "View all (" + records.length + ")", "notification-menu-item");
+                more.href = href;
+                list.appendChild(more);
+            }
+        }
+
+        appendGroup(
+            "Tasks to complete (" + incompleteTasks.length + ")",
+            incompleteTasks,
+            "pages/tasks.html",
+            "bi-check2-square",
+            function (task) {
+                return task.name;
+            }
+        );
+        appendGroup(
+            "Projects in progress (" + activeProjects.length + ")",
+            activeProjects,
+            "pages/projects.html",
+            "bi-folder2-open",
+            function (project) {
+                return project.name;
+            }
+        );
+    }
 
     function renderRecentActivity() {
         const list = document.getElementById("recentActivityList");
@@ -641,6 +711,7 @@
             }
         });
         renderRecentActivity();
+        renderNotifications();
         updateDashboardCharts();
     }
 
