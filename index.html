@@ -77,8 +77,27 @@
                     <form id="searchForm" class="d-flex">
                       <input id="searchInput"class="form-control" type="search" placeholder="Search...">
                     </form>
-                    <i class="bi bi-bell fs-4"></i>
-                    <i class="bi bi-person-circle fs-3"></i>
+                    <div class="dropdown">
+                        <button id="notificationsButton" class="btn dashboard-header-icon" type="button"
+                            data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"
+                            aria-label="Notifications">
+                            <i class="bi bi-bell" aria-hidden="true"></i>
+                            <span id="notificationCount" class="notification-count" hidden></span>
+                        </button>
+                        <div id="notificationsMenu" class="dropdown-menu dropdown-menu-end notification-menu p-0"
+                            aria-labelledby="notificationsButton">
+                            <div class="notification-menu-heading">
+                                <strong>Notifications</strong>
+                                <span>Tasks and active projects</span>
+                            </div>
+                            <div id="notificationItems"></div>
+                            <a class="notification-menu-footer" href="pages/tasks.html">View all tasks</a>
+                        </div>
+                    </div>
+                    <a class="btn dashboard-header-icon" href="pages/profile.html" aria-label="Open profile"
+                        title="Profile">
+                        <i class="bi bi-person-circle" aria-hidden="true"></i>
+                    </a>
                 </div>
                 </nav>
 

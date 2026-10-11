@@ -92,31 +92,36 @@
         });
 
     function addAccountControls(authClient, session) {
-        const toolbar = document.createElement("div");
-        toolbar.className = "account-toolbar";
+        const accountEmail = document.getElementById("settingsAccountEmail");
+        if (accountEmail) {
+            accountEmail.textContent = session.user.email || "حسابك";
+        }
 
-        const email = document.createElement("span");
-        email.textContent = session.user.email || "حسابك";
+        const logoutButton = document.getElementById("logoutButton");
+        if (!logoutButton) {
+            return;
+        }
 
-        const logoutButton = document.createElement("button");
-        logoutButton.type = "button";
-        logoutButton.className = "btn btn-sm btn-outline-light";
-        logoutButton.textContent = "تسجيل الخروج";
+        const logoutStatus = document.getElementById("logoutStatus");
         logoutButton.addEventListener("click", async function () {
             logoutButton.disabled = true;
-            const result = await authClient.auth.signOut();
-
-            if (result.error) {
-                logoutButton.disabled = false;
-                console.error("Sign-out failed:", result.error);
-                window.alert("تعذر تسجيل الخروج: " + result.error.message);
-                return;
+            if (logoutStatus) {
+                logoutStatus.hidden = true;
+                logoutStatus.textContent = "";
             }
-
-            window.location.replace(getLoginPath());
+            try {
+                const result = await authClient.auth.signOut();
+                if (result.error) {
+                    throw result.error;
+                }
+            } catch (error) {
+                logoutButton.disabled = false;
+                console.error("Sign-out failed:", error);
+                if (logoutStatus) {
+                    logoutStatus.textContent = "تعذر تسجيل الخروج: " + error.message;
+                    logoutStatus.hidden = false;
+                }
+            }
         });
-
-        toolbar.append(email, logoutButton);
-        document.body.appendChild(toolbar);
     }
 })();
