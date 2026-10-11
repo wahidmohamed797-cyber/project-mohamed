@@ -404,6 +404,62 @@
 
     let projectTaskTrendChart;
     let projectStatusChart;
+    const activityDateFormat = new Intl.DateTimeFormat(undefined, {
+        dateStyle: "medium"
+    });
+
+    function renderRecentActivity() {
+        const list = document.getElementById("recentActivityList");
+        if (!list) {
+            return;
+        }
+
+        const activities = data.projects.map(function (project) {
+            const customer = customersById.get(project.customer_id);
+            return {
+                createdAt: project.created_at,
+                title: project.name,
+                detail: "Project created" + (customer ? " for " + customer.name : ""),
+                icon: "bi-folder-plus",
+                color: "project"
+            };
+        }).concat(data.tasks.map(function (task) {
+            const project = data.projects.find(function (entry) {
+                return entry.id === task.project_id;
+            });
+            return {
+                createdAt: task.created_at,
+                title: task.name,
+                detail: "Task added" + (project ? " to " + project.name : ""),
+                icon: "bi-check2-square",
+                color: "task"
+            };
+        })).sort(function (first, second) {
+            return new Date(second.createdAt) - new Date(first.createdAt);
+        }).slice(0, 6);
+
+        list.replaceChildren();
+        if (!activities.length) {
+            list.appendChild(node("li", "No recent activity yet.", "list-group-item text-muted py-4"));
+            return;
+        }
+
+        activities.forEach(function (activity) {
+            const item = node("li", null, "list-group-item dashboard-activity-item");
+            const icon = node("span", null, "dashboard-activity-icon dashboard-activity-icon-" + activity.color);
+            icon.setAttribute("aria-hidden", "true");
+            icon.appendChild(node("i", null, "bi " + activity.icon));
+            const content = node("div", null, "dashboard-activity-content");
+            content.append(
+                node("strong", activity.title, "dashboard-activity-title"),
+                node("span", activity.detail, "dashboard-activity-detail")
+            );
+            const time = node("time", activityDateFormat.format(new Date(activity.createdAt)), "dashboard-activity-date");
+            time.dateTime = activity.createdAt;
+            item.append(icon, content, time);
+            list.appendChild(item);
+        });
+    }
 
     function updateDashboardCharts() {
         if (typeof window.Chart === "undefined") {
@@ -549,6 +605,7 @@
                 element.textContent = String(entry[1]);
             }
         });
+        renderRecentActivity();
         updateDashboardCharts();
     }
 
