@@ -1,9 +1,9 @@
  h1{
-    
+
     color: white;
     text-align: center;
-    
- } 
+
+ }
   h5{
     text-align: center;
   }
@@ -52,31 +52,31 @@ sidebar h3{
 
 .welcome-section {
   display: flex !important;
-  justify-content: space-between !important; 
-  align-items: center !important;     
-  width: 100% !important;             
-  margin-bottom: 25px !important;     
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin-bottom: 25px !important;
 }
 
 /* تنسيق شكل وتصميم زر Add New */
 .add-new-btn {
-  background-color: #4f35f3 !important; 
-  color: #ffffff !important;          
-  border: none !important;             
-  padding: 10px 20px !important;       
-  border-radius: 8px !important;       
-  font-size: 14px !important;         
-  font-weight: 600 !important;         
-  cursor: pointer !important;          
-  display: flex !important;            
-  align-items: center !important;      
-  gap: 8px !important;                 
-  transition: background-color 0.3s ease !important; 
+  background-color: #4f35f3 !important;
+  color: #ffffff !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  transition: background-color 0.3s ease !important;
 }
 
 
 .add-new-btn:hover {
-  background-color: #3c24cf !important;  
+  background-color: #3c24cf !important;
 }
 
 
@@ -122,4 +122,282 @@ body.light-mode table {
 
 body.light-mode .navbar {
     background-color: #ffffff !important;
+}
+
+
+
+
+/* =====================================================
+   PROJECT TABLE
+   ===================================================== */
+
+.project-status {
+    background: #ff9800;
+    color: #fff;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.project-progress {
+    background: #ddd;
+    width: 100%;
+    height: 5px;
+    border-radius: 3px;
+    margin: 5px 0;
+}
+
+.project-progress-fill {
+    background: #ff9800;
+    width: 0%;
+    height: 100%;
+    border-radius: 3px;
+}
+
+
+/* =====================================================
+   EMPLOYEES
+   ===================================================== */
+
+.employee-secondary-text {
+    color: #636c93;
+}
+
+.employee-status {
+    padding: 4px 8px;
+}
+
+.employee-status-active {
+    background-color: rgba(16, 185, 129, 0.15);
+}
+
+.employee-status-inactive {
+    background-color: rgba(220, 53, 69, 0.15);
+}
+
+
+/* =====================================================
+   PROJECT CARDS
+   ===================================================== */
+
+.project-card {
+    background-color: #0d122e;
+    border-radius: 12px;
+}
+
+.project-status-badge {
+    background-color: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.project-client {
+    color: #636c93;
+    font-size: 14px;
+}
+
+.project-progress-label {
+    font-size: 13px;
+}
+
+.project-secondary-text {
+    color: #636c93;
+}
+
+.project-progress-container {
+    height: 6px;
+    background-color: #070b1e;
+}
+
+.project-progress-main {
+    background-color: #4f35f3;
+}
+
+
+/* =====================================================
+   TASKS
+   ===================================================== */
+
+.task-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(99, 108, 147, 0.1);
+}
+
+.task-checkbox {
+    width: 20px;
+    height: 20px;
+}
+
+.task-secondary-text {
+    color: #636c93;
+}
+
+
+/* =====================================================
+   GLOBAL SEARCH
+   ===================================================== */
+
+.search-results {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.search-result-item {
+    padding: 10px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+
+/* ================================
+   REPORT CARDS
+================================ */
+
+.report-card {
+    background-color: #0d122e;
+    border-radius: 12px;
+}
+
+.report-label {
+    color: #636c93;
+    font-size: 14px;
+    font-weight: 500;
+}
+/* ================================
+   TEAM ACTIVITY
+================================ */
+
+.team-activity-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(99, 108, 147, 0.1);
+}
+
+.team-employee-name {
+    color: #fff;
+    font-weight: 500;
+}
+
+.team-task-count {
+    color: #636c93;
+    font-size: 14px;
+}
+
+html.auth-checking body {
+    visibility: hidden;
+}
+
+html.app-loading body {
+    visibility: hidden;
+}
+
+.auth-page {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background:
+        radial-gradient(circle at top right, rgba(79, 53, 243, 0.22), transparent 35%),
+        #070b1e;
+    color: #fff;
+}
+
+.auth-card {
+    width: min(100%, 440px);
+    padding: 32px;
+    border: 1px solid rgba(99, 108, 147, 0.2);
+    border-radius: 16px;
+    background: #0d122e;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.auth-description,
+.auth-card .form-text {
+    color: #aab1cc;
+}
+
+.auth-card .form-control {
+    min-height: 44px;
+    color: #fff;
+    border-color: rgba(99, 108, 147, 0.45);
+    background-color: #070b1e;
+}
+
+.auth-card .form-control:focus {
+    border-color: #7665ff;
+    box-shadow: 0 0 0 0.2rem rgba(79, 53, 243, 0.25);
+}
+
+.auth-card .btn-primary {
+    border-color: #4f35f3;
+    background-color: #4f35f3;
+}
+
+.auth-card .btn-link {
+    color: #b6adff;
+}
+
+.account-toolbar {
+    position: fixed;
+    z-index: 1030;
+    right: 16px;
+    bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: calc(100vw - 32px);
+    padding: 8px 12px;
+    border: 1px solid rgba(99, 108, 147, 0.25);
+    border-radius: 10px;
+    background: #212529;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    font-size: 13px;
+}
+
+.account-toolbar span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.auth-runtime-error {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: #070b1e;
+    color: #fff;
+    text-align: center;
+}
+
+.app-data-error {
+    position: fixed;
+    z-index: 1040;
+    top: 16px;
+    left: 50%;
+    width: min(720px, calc(100vw - 32px));
+    padding: 12px 16px;
+    border: 1px solid rgba(220, 53, 69, 0.45);
+    border-radius: 10px;
+    background: #2b1520;
+    color: #fff;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+    transform: translateX(-50%);
+}
+
+.app-data-error[hidden] {
+    display: none;
+}
+
+.app-data-error.app-data-success {
+    border-color: rgba(16, 185, 129, 0.5);
+    background: #10271f;
 }
