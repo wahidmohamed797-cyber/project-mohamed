@@ -9,7 +9,7 @@
      <link rel="stylesheet" href="../style.css">
     <script>document.documentElement.classList.add("auth-checking", "app-loading");</script>
 </head>
-<body>
+<body class="settings-page">
 <div class="mb-4">
 
     <div class="d-flex align-items-center gap-3">
@@ -28,13 +28,13 @@
 
 </div>
 
-<div class="card border-0 p-4" style="background-color: #0d122e; border-radius: 12px; max-width: 650px;">
+<div class="card settings-card border-0 p-4">
   <h5 class="fw-bold text-white mb-4">System Preferences</h5>
 
-  <div class="d-flex justify-content-between align-items-center py-3" style="border-bottom: 1px solid rgba(99, 108, 147, 0.1);">
+  <div class="settings-option d-flex justify-content-between align-items-center py-3">
     <div>
       <h6 class="fw-bold text-white m-0">Dark Mode Theme</h6>
-      <small style="color: #636c93;">Enable or disable dark user interface</small>
+      <small class="settings-description">Enable or disable dark user interface</small>
     </div>
     <div class="form-check form-switch m-0">
       <input id="darkModeToggle" class="form-check-input" type="checkbox" checked style="width: 45px; height: 24px; cursor: pointer;">
@@ -44,7 +44,7 @@
   <div class="d-flex justify-content-between align-items-center py-3">
     <div>
       <h6 class="fw-bold text-white m-0">Email Notifications</h6>
-      <small style="color: #636c93;">Receive a summary report daily</small>
+      <small class="settings-description">Receive a summary report daily</small>
     </div>
     <div class="form-check form-switch m-0">
       <input class="form-check-input" type="checkbox" checked style="width: 45px; height: 24px; cursor: pointer;">
