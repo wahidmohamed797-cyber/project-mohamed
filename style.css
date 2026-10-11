@@ -213,6 +213,94 @@ body.light-mode .navbar {
     background-color: #4f35f3;
 }
 
+.summary-card {
+    min-height: 112px;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    border: 0;
+    border-radius: 14px;
+    color: #fff;
+    box-shadow: 0 8px 22px rgba(7, 11, 30, 0.12);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.summary-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 26px rgba(7, 11, 30, 0.2);
+}
+
+.summary-card-employees {
+    background: linear-gradient(135deg, #5144c8, #7665ff);
+}
+
+.summary-card-customers {
+    background: linear-gradient(135deg, #087f8c, #16a6a1);
+}
+
+.summary-card-projects {
+    background: linear-gradient(135deg, #2458a6, #3986d7);
+}
+
+.summary-card-tasks {
+    background: linear-gradient(135deg, #a65723, #d88936);
+}
+
+.summary-card-icon {
+    display: grid;
+    width: 54px;
+    height: 54px;
+    flex: 0 0 54px;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.16);
+    font-size: 24px;
+}
+
+.summary-card-content h5,
+.summary-card-content h2 {
+    margin: 0;
+    color: #fff !important;
+    text-align: left;
+}
+
+.summary-card-content h5 {
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.88;
+}
+
+.summary-card-content h2 {
+    margin-top: 4px;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.dashboard-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.dashboard-section-heading h5 {
+    text-align: left;
+}
+
+.dashboard-section-heading > i {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    place-items: center;
+    border-radius: 12px;
+    background: rgba(79, 53, 243, 0.1);
+    color: #5c4ce0;
+    font-size: 19px;
+}
+
 .dashboard-chart {
     position: relative;
     width: 100%;
@@ -224,6 +312,62 @@ body.light-mode .navbar {
 
 .dashboard-line-chart {
     height: 320px;
+}
+
+.dashboard-activity-list {
+    max-height: 330px;
+    overflow-y: auto;
+}
+
+.dashboard-activity-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0;
+    border-color: rgba(99, 108, 147, 0.12);
+}
+
+.dashboard-activity-icon {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    place-items: center;
+    border-radius: 11px;
+}
+
+.dashboard-activity-icon-project {
+    background: rgba(79, 53, 243, 0.11);
+    color: #5c4ce0;
+}
+
+.dashboard-activity-icon-task {
+    background: rgba(32, 201, 151, 0.13);
+    color: #11966e;
+}
+
+.dashboard-activity-content {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.dashboard-activity-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dashboard-activity-detail,
+.dashboard-activity-date {
+    color: #737b91;
+    font-size: 12px;
+}
+
+.dashboard-activity-date {
+    flex: 0 0 auto;
 }
 
 .project-card .delete-project-btn {
